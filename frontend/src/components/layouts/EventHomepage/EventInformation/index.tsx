@@ -9,6 +9,7 @@ import {eventCoverImageUrl, eventHomepageUrl} from "../../../../utilites/urlHelp
 import {FC} from "react";
 import {Event} from "../../../../types.ts";
 import {EventDateRange} from "../../../common/EventDateRange";
+import PretalxScheduleWidget from "../PretalxScheduleWidget.tsx";
 
 export const EventInformation: FC<{
     event: Event
@@ -77,6 +78,10 @@ export const EventInformation: FC<{
                     <div dangerouslySetInnerHTML={{
                         __html: event.description || '',
                     }}/>
+
+                    {event?.description?.includes("pretalx-schedule") && (
+                        <PretalxScheduleWidget eventUrl="https://cfp.3mdeb.com/zarhus-developers-meetup-0x1-2025" />
+                    )}
                 </div>
             )}
         </>
