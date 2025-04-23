@@ -18,6 +18,15 @@ class HtmlPurifierService
         File::ensureDirectoryExists($cachePath, 0755);
 
         $this->config->set('Cache.SerializerPath', $cachePath);
+
+        if ($def = $this->config->maybeGetRawHTMLDefinition()) {
+            $def->addElement('pretalx-schedule', 'Inline', 'Empty', 'Common', [
+                'event-url' => 'URI',
+                'locale' => 'Text',
+                'format' => 'Text',
+                'style' => 'Text',
+            ]);
+        }
     }
 
     public function purify(?string $html): string
