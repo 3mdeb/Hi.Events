@@ -1,6 +1,7 @@
-import {Link, RichTextEditor} from "@mantine/tiptap";
+import {RichTextEditor} from "@mantine/tiptap";
 import {useEditor} from "@tiptap/react";
-import StarterKit from '@tiptap/starter-kit';
+import TiptapLink from '@tiptap/extension-link';
+import StarterKit from "@tiptap/starter-kit";
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Image from '@tiptap/extension-image';
@@ -41,15 +42,23 @@ export const Editor = ({
 
     const editor = useEditor({
         extensions: [
-            StarterKit,
+            StarterKit.configure({
+                // Disable StarterKit's default link extension
+                link: false,
+            }),
+            TiptapLink.configure({
+                // Configure Tiptap's Link extension as needed
+                autolink: false,
+                linkOnPaste: false,
+            }),
             Underline,
-            Link,
             TextAlign.configure({types: ['heading', 'paragraph']}),
             Image,
             ImageResize,
             TextStyle,
             Color
         ],
+        content: value, // Initialize editor with the value prop
         onUpdate: ({editor}) => {
             const html = editor.getHTML();
             const htmlLength = html.length;
@@ -66,8 +75,12 @@ export const Editor = ({
 
     useEffect(() => {
         if (value && editor) {
-            if (value !== editor.getHTML()) {
+            // Only set content if the editor is NOT focused and the value truly differs.
+            // This helps prevent fighting with user input or rapid feedback loops where the
+            // editor's own update via onChange causes the prop to change, then this effect fires.
+            if (!editor.isFocused && value !== editor.getHTML()) {
                 editor.commands.setContent(value, false, {preserveWhitespace: "full"});
+                // Note: Calling setContent here will likely trigger onUpdate again.
             }
             const htmlLength = value.length;
 
