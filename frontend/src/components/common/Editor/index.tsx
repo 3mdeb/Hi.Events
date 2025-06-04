@@ -1,5 +1,6 @@
-import {Link, RichTextEditor} from "@mantine/tiptap";
+import {RichTextEditor} from "@mantine/tiptap";
 import {useEditor} from "@tiptap/react";
+import TiptapLink from '@tiptap/extension-link';
 import StarterKit from "@tiptap/starter-kit";
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
@@ -42,10 +43,13 @@ export const Editor = ({
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
-                link: {
-                    autolink: false,
-                    linkOnPaste: false,
-                },
+                // Disable StarterKit's default link extension
+                link: false,
+            }),
+            TiptapLink.configure({
+                // Configure Tiptap's Link extension as needed
+                autolink: false,
+                linkOnPaste: false,
             }),
             Underline,
             TextAlign.configure({types: ['heading', 'paragraph']}),
