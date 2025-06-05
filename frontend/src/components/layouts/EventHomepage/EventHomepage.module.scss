@@ -68,7 +68,14 @@
     }
 
     a {
-      color: var(--homepage-primary-text-color, var(--tk-primary)) !important;
+      color: var(--homepage-secondary-text-color, var(--tk-primary)) !important;
+      text-decoration: none;
+      transition: filter 0.2s ease-in-out;
+
+      &:hover {
+        filter: brightness(80%);
+        text-decoration: underline;
+      }
     }
 
     .eventInfo {
