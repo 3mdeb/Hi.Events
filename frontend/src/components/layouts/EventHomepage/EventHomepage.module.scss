@@ -68,7 +68,8 @@
     }
 
     a {
-      color: var(--homepage-primary-text-color, var(--tk-primary)) !important;
+      color: #007bff !important;
+      text-decoration: none;
     }
 
     .eventInfo {
